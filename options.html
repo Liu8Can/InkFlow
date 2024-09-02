@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>网页高亮工具选项</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      width: 400px;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-top: 0;
+    }
+    .color-option {
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .color-option label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .color-input {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .color-input input[type="color"] {
+      width: 50px;
+      height: 30px;
+      border: none;
+      margin-right: 10px;
+    }
+    .color-input input[type="text"] {
+      width: 80px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .opacity-control {
+      display: flex;
+      align-items: center;
+    }
+    .opacity-control input[type="range"] {
+      flex-grow: 1;
+      margin-right: 10px;
+    }
+    .opacity-value {
+      width: 40px;
+      text-align: right;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+    .remove-color {
+      background-color: #f44336;
+      margin-top: 10px;
+    }
+    .remove-color:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>自定义高亮颜色</h1>
+    <div id="colorOptions"></div>
+    <button id="addColor">添加新颜色</button>
+    <button id="save">保存</button>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>
