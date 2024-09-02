@@ -1,16 +1,16 @@
 const DEFAULT_COLORS = [
-    { color: '#FF809D', opacity: 0.4 },
-    { color: '#FCF485', opacity: 0.4 },
-    { color: '#C5FB72', opacity: 0.4 },
-    { color: '#38E5FF', opacity: 0.4 }
+  { color: '#FF809D', opacity: 0.4 },
+  { color: '#FCF485', opacity: 0.4 },
+  { color: '#C5FB72', opacity: 0.4 },
+  { color: '#38E5FF', opacity: 0.4 }
 ];
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.sync.set({highlightColors: DEFAULT_COLORS}, () => {
+  chrome.storage.sync.set({ highlightColors: DEFAULT_COLORS }, () => {
     console.log('默认高亮颜色已初始化');
   });
 
-  chrome.storage.local.set({highlights: {}}, () => {
+  chrome.storage.local.set({ highlights: {} }, () => {
     console.log('初始化高亮存储');
   });
 });
@@ -25,7 +25,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       target: { tabId: tabId },
       files: ['content.js']
     }).then(() => {
-      chrome.tabs.sendMessage(tabId, {action: "restoreHighlights"}).catch(() => {
+      chrome.tabs.sendMessage(tabId, { action: "restoreHighlights" }).catch(() => {
         console.log('Failed to send message, content script might not be ready yet');
       });
     }).catch((error) => {
@@ -36,13 +36,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 chrome.commands.onCommand.addListener((command) => {
   if (command.startsWith('highlight-color-')) {
-    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0] && isValidUrl(tabs[0].url)) {
         chrome.scripting.executeScript({
           target: { tabId: tabs[0].id },
           files: ['content.js']
         }).then(() => {
-          chrome.tabs.sendMessage(tabs[0].id, {action: command}).catch(() => {
+          chrome.tabs.sendMessage(tabs[0].id, { action: command }).catch(() => {
             console.log('Failed to send message, content script might not be ready yet');
           });
         }).catch((error) => {

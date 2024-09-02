@@ -35,7 +35,7 @@ function renderColorOptions() {
     `;
     colorOptionsDiv.appendChild(colorOption);
   });
-  
+
   document.getElementById('addColor').disabled = colors.length >= MAX_COLORS;
 }
 
@@ -47,7 +47,7 @@ document.getElementById('addColor').addEventListener('click', () => {
 });
 
 document.getElementById('save').addEventListener('click', () => {
-  chrome.storage.sync.set({highlightColors: colors}, () => {
+  chrome.storage.sync.set({ highlightColors: colors }, () => {
     alert('颜色已保存');
   });
 });

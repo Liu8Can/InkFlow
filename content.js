@@ -24,27 +24,27 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     applyHighlight(colorIndex);
   }
   // 可选：发送响应
-  sendResponse({received: true});
+  sendResponse({ received: true });
   return true; // 表示异步响应
 });
 
 function applyHighlight(colorIndex) {
-    chrome.storage.sync.get('highlightColors', (data) => {
-      const colors = data.highlightColors || [];
-      const colorObj = colors[colorIndex];
-  
-      if (colorObj) {
-        toggleHighlight(hexToRGBA(colorObj.color, colorObj.opacity));
-      }
-    });
-  }
+  chrome.storage.sync.get('highlightColors', (data) => {
+    const colors = data.highlightColors || [];
+    const colorObj = colors[colorIndex];
+
+    if (colorObj) {
+      toggleHighlight(hexToRGBA(colorObj.color, colorObj.opacity));
+    }
+  });
+}
 
 function toggleHighlight(color) {
   const selection = window.getSelection();
   if (!selection.isCollapsed) {
     const range = selection.getRangeAt(0);
     const highlightedElement = range.commonAncestorContainer.parentElement;
-    
+
     if (highlightedElement && highlightedElement.classList.contains('highlight')) {
       // 如果已经高亮,则取消高亮
       const parent = highlightedElement.parentNode;
@@ -67,9 +67,9 @@ function addHighlight(range, color) {
   highlight.className = 'highlight';
   highlight.style.backgroundColor = color;
   highlight.dataset.id = highlightId;
-  
+
   range.surroundContents(highlight);
-  
+
   highlights[highlightId] = {
     color,
     content: highlight.textContent
@@ -77,57 +77,57 @@ function addHighlight(range, color) {
 }
 
 function saveHighlights() {
-  chrome.storage.local.set({highlights: highlights});
+  chrome.storage.local.set({ highlights: highlights });
 }
 
 function restoreHighlights() {
-    chrome.storage.local.get('highlights', (data) => {
-      highlights = data.highlights || {};
-      for (const [id, highlight] of Object.entries(highlights)) {
-        const range = findTextRange(highlight.content);
-        if (range) {
-          const highlightElement = document.createElement('span');
-          highlightElement.className = 'highlight';
-          highlightElement.style.backgroundColor = highlight.color;
-          highlightElement.dataset.id = id;
-          
-          range.surroundContents(highlightElement);
-        }
+  chrome.storage.local.get('highlights', (data) => {
+    highlights = data.highlights || {};
+    for (const [id, highlight] of Object.entries(highlights)) {
+      const range = findTextRange(highlight.content);
+      if (range) {
+        const highlightElement = document.createElement('span');
+        highlightElement.className = 'highlight';
+        highlightElement.style.backgroundColor = highlight.color;
+        highlightElement.dataset.id = id;
+
+        range.surroundContents(highlightElement);
       }
-    });
-  }
-  
+    }
+  });
+}
+
 function findTextRange(text) {
-    const textNodes = [];
-    const treeWalker = document.createTreeWalker(
-      document.body,
-      NodeFilter.SHOW_TEXT,
-      null,
-      false
-    );
-  
-    while (treeWalker.nextNode()) {
-      textNodes.push(treeWalker.currentNode);
+  const textNodes = [];
+  const treeWalker = document.createTreeWalker(
+    document.body,
+    NodeFilter.SHOW_TEXT,
+    null,
+    false
+  );
+
+  while (treeWalker.nextNode()) {
+    textNodes.push(treeWalker.currentNode);
+  }
+
+  for (const node of textNodes) {
+    const index = node.textContent.indexOf(text);
+    if (index !== -1) {
+      const range = document.createRange();
+      range.setStart(node, index);
+      range.setEnd(node, index + text.length);
+      return range;
     }
-  
-    for (const node of textNodes) {
-      const index = node.textContent.indexOf(text);
-      if (index !== -1) {
-        const range = document.createRange();
-        range.setStart(node, index);
-        range.setEnd(node, index + text.length);
-        return range;
-      }
-    }
-  
-    return null;
+  }
+
+  return null;
 }
 
 
-  
+
 function hexToRGBA(hex, opacity) {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }

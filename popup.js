@@ -29,7 +29,7 @@ document.getElementById('addColor').addEventListener('click', () => {
 document.getElementById('save').addEventListener('click', () => {
   const colorInputs = document.querySelectorAll('input[type="color"]');
   colors = Array.from(colorInputs).map(input => input.value);
-  chrome.storage.sync.set({highlightColors: colors}, () => {
+  chrome.storage.sync.set({ highlightColors: colors }, () => {
     alert('颜色已保存');
   });
 });

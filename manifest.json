@@ -1,69 +1,75 @@
 {
-    "manifest_version": 3,
-    "name": "网页高亮工具",
-    "version": "1.0",
-    "description": "在任何网页上创建永久的、私人的高亮",
-    "permissions": [
-      "activeTab",
-      "storage",
-      "scripting"
-    ],
-    "host_permissions": [
-      "<all_urls>"
-    ],
-    "background": {
-      "service_worker": "background.js"
-    },
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["content.js"],
-        "css": ["styles.css"]
-      }
-    ],
-    "action": {
-      "default_popup": "popup.html"
-    },
-    "options_page": "options.html",
-    "commands": {
-      "highlight-color-1": {
-        "suggested_key": {
-          "default": "Alt+R"
-        },
-        "description": "高亮颜色 1 (红色)"
-      },
-      "highlight-color-2": {
-        "suggested_key": {
-          "default": "Alt+Y"
-        },
-        "description": "高亮颜色 2 (黄色)"
-      },
-      "highlight-color-3": {
-        "suggested_key": {
-          "default": "Alt+G"
-        },
-        "description": "高亮颜色 3 (绿色)"
-      },
-      "highlight-color-4": {
-        "suggested_key": {
-          "default": "Alt+B"
-        },
-        "description": "高亮颜色 4 (蓝色)"
-      },
-      "highlight-color-5": {
-        "description": "高亮颜色 5"
-      },
-      "highlight-color-6": {
-        "description": "高亮颜色 6"
-      },
-      "highlight-color-7": {
-        "description": "高亮颜色 7"
-      },
-      "highlight-color-8": {
-        "description": "高亮颜色 8"
-      },
-      "highlight-color-9": {
-        "description": "高亮颜色 9"
-      }
+  "manifest_version": 3,
+  "name": "网页高亮工具",
+  "version": "1.0",
+  "description": "在任何网页上创建永久的、私人的高亮",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "styles.css"
+      ]
     }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html",
+  "commands": {
+    "highlight-color-1": {
+      "suggested_key": {
+        "default": "Alt+R"
+      },
+      "description": "高亮颜色 1 (红色)"
+    },
+    "highlight-color-2": {
+      "suggested_key": {
+        "default": "Alt+Y"
+      },
+      "description": "高亮颜色 2 (黄色)"
+    },
+    "highlight-color-3": {
+      "suggested_key": {
+        "default": "Alt+G"
+      },
+      "description": "高亮颜色 3 (绿色)"
+    },
+    "highlight-color-4": {
+      "suggested_key": {
+        "default": "Alt+B"
+      },
+      "description": "高亮颜色 4 (蓝色)"
+    },
+    "highlight-color-5": {
+      "description": "高亮颜色 5"
+    },
+    "highlight-color-6": {
+      "description": "高亮颜色 6"
+    },
+    "highlight-color-7": {
+      "description": "高亮颜色 7"
+    },
+    "highlight-color-8": {
+      "description": "高亮颜色 8"
+    },
+    "highlight-color-9": {
+      "description": "高亮颜色 9"
+    }
+  }
 }
