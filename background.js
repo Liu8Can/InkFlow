@@ -6,31 +6,28 @@ const DEFAULT_COLORS = [
 ];
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.sync.set({ highlightColors: DEFAULT_COLORS }, () => {
-    console.log('默认高亮颜色已初始化');
-  });
-
-  chrome.storage.local.set({ highlights: {} }, () => {
-    console.log('初始化高亮存储');
-  });
+  chrome.storage.sync.set({ highlightColors: DEFAULT_COLORS });
+  chrome.storage.local.set({ highlights: {} });
 });
 
 function isValidUrl(url) {
   return url && !url.startsWith('chrome://') && !url.startsWith('chrome-extension://');
 }
 
+function injectContentScript(tabId) {
+  chrome.scripting.executeScript({
+    target: { tabId: tabId },
+    files: ['content.js']
+  }).then(() => {
+    setTimeout(() => {
+      chrome.tabs.sendMessage(tabId, { action: "restoreHighlights" });
+    }, 500);
+  });
+}
+
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete' && isValidUrl(tab.url)) {
-    chrome.scripting.executeScript({
-      target: { tabId: tabId },
-      files: ['content.js']
-    }).then(() => {
-      chrome.tabs.sendMessage(tabId, { action: "restoreHighlights" }).catch(() => {
-        console.log('Failed to send message, content script might not be ready yet');
-      });
-    }).catch((error) => {
-      console.log('Failed to execute script:', error);
-    });
+    injectContentScript(tabId);
   }
 });
 
@@ -38,17 +35,31 @@ chrome.commands.onCommand.addListener((command) => {
   if (command.startsWith('highlight-color-')) {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0] && isValidUrl(tabs[0].url)) {
-        chrome.scripting.executeScript({
-          target: { tabId: tabs[0].id },
-          files: ['content.js']
-        }).then(() => {
-          chrome.tabs.sendMessage(tabs[0].id, { action: command }).catch(() => {
-            console.log('Failed to send message, content script might not be ready yet');
-          });
-        }).catch((error) => {
-          console.log('Failed to execute script:', error);
+        chrome.tabs.sendMessage(tabs[0].id, { action: command }).catch(() => {
+          injectContentScript(tabs[0].id);
         });
       }
     });
+  }
+});
+
+function saveHighlight(url, title, highlightInfo) {
+  chrome.storage.local.get(['highlights'], (result) => {
+    const highlights = result.highlights || {};
+    if (!highlights[url]) {
+      highlights[url] = {
+        title: title,
+        date: new Date().toISOString().split('T')[0],
+        highlights: []
+      };
+    }
+    highlights[url].highlights.push(highlightInfo);
+    chrome.storage.local.set({ highlights: highlights });
+  });
+}
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === 'saveHighlight') {
+    saveHighlight(request.url, request.title, request.highlightInfo);
   }
 });
