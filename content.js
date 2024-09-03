@@ -66,6 +66,8 @@ function addHighlight(range, color) {
   const highlight = document.createElement('span');
   highlight.className = 'highlight';
   highlight.style.backgroundColor = color;
+  highlight.style.borderRadius = '3px'; // 添加圆角样式
+  // highlight.style.padding = '0 2px'; // 添加一些内边距,使圆角更明显
   highlight.dataset.id = highlightId;
 
   range.surroundContents(highlight);
