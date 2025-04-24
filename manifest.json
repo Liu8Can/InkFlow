@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "网页高亮工具",
-  "version": "1.0",
-  "description": "在任何网页上创建永久的、私人的高亮",
+  "name": "网页高亮工具 (优化版)",
+  "version": "1.1",
+  "description": "在任何网页上创建、管理和注释永久的、私人的高亮。",
   "permissions": [
     "activeTab",
     "storage",
@@ -24,59 +24,38 @@
       ],
       "css": [
         "styles.css"
-      ]
+      ],
+      "run_at": "document_idle" 
     }
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_title": "网页高亮工具 - 选项"
+    
   },
   "options_page": "options.html",
   "commands": {
     "highlight-color-1": {
-      "suggested_key": {
-        "default": "Alt+R"
-      },
-      "description": "高亮颜色 1 (红色)"
+      "suggested_key": { "default": "Alt+Shift+1", "mac": "Alt+Shift+1" },
+      "description": "高亮颜色 1"
     },
     "highlight-color-2": {
-      "suggested_key": {
-        "default": "Alt+Y"
-      },
-      "description": "高亮颜色 2 (黄色)"
+      "suggested_key": { "default": "Alt+Shift+2", "mac": "Alt+Shift+2" },
+      "description": "高亮颜色 2"
     },
     "highlight-color-3": {
-      "suggested_key": {
-        "default": "Alt+G"
-      },
-      "description": "高亮颜色 3 (绿色)"
+      "suggested_key": { "default": "Alt+Shift+3", "mac": "Alt+Shift+3" },
+      "description": "高亮颜色 3"
     },
     "highlight-color-4": {
-      "suggested_key": {
-        "default": "Alt+B"
-      },
-      "description": "高亮颜色 4 (蓝色)"
-    },
-    "highlight-color-5": {
-      "description": "高亮颜色 5"
-    },
-    "highlight-color-6": {
-      "description": "高亮颜色 6"
-    },
-    "highlight-color-7": {
-      "description": "高亮颜色 7"
-    },
-    "highlight-color-8": {
-      "description": "高亮颜色 8"
-    },
-    "highlight-color-9": {
-      "description": "高亮颜色 9"
+      "suggested_key": { "default": "Alt+Shift+4", "mac": "Alt+Shift+4" },
+      "description": "高亮颜色 4"
     }
   },
   "icons": {
-    "128": "images/icon128.png",
-    "48": "images/icon48.png",
     "16": "images/icon16.png",
     "32": "images/icon32.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png",
     "256": "images/icon256.png"
   }
 }
